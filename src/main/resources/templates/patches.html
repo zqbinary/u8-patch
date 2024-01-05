@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="includes/include :: header(${title})"/>
+
+</head>
+<style>
+
+    .page-input {
+        width: 40px;
+        height: 100%;
+        padding: 0px 2px;
+        margin: 0px 3px;
+    }
+
+    .page-info {
+        line-height: 1.6rem;
+        margin-right: 1rem;
+    }
+</style>
+<body>
+
+<div class="container">
+    <th:block th:include="includes/include :: navbar()"></th:block>
+    <div class="row">
+        <h1 class="display-4" th:text="${title}"></h1>
+    </div>
+    <form>
+        <div class="row  mb-3">
+            <div class="col-6">
+
+                <input type="text" name="keyword" class="form-control" placeholder="关键字"
+                       width="100%"
+                       th:value="${#httpServletRequest.getParameter('keyword')}">
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">标题</th>
+                <th scope="col">发布时间</th>
+                <th scope="col">官网</th>
+                <th scope="col">创建时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="patch : ${data.records}">
+                <th scope="row" th:text="${patch.id}">1</th>
+                <td th:text="${patch.title}">1</td>
+                <td th:text="${#dates.format(patch.publishedAt,'yyyy-MM-dd')}">1</td>
+                <td><a target="_blank" th:href="'https://www.iufida.com/e/wap/'+${patch.url}" th:text="去网站看看"></a>
+                </td>
+                <td>
+                    <a target="_blank" th:href="@{/patches/{id}/(id=${patch.id})}"
+                       th:text="${#dates.format(patch.createdAt,'yyyy-MM-dd')}"></a>
+                </td>
+            </tr>
+            <tr th:if="${data.getTotal==0}">
+                <td colspan="5" style="text-align: center;">
+                    没有找到相关内容
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <form>
+        <nav aria-label="Page navigation example" th:if="${data.getTotal>0}">
+            <ul class="pagination">
+                <li>
+                    <div class="page-info">一共：[[${data.getTotal}]]</div>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">首页</a>
+                </li>
+                <li class="page-item" th:if="${data.hasPrevious}">
+                    <a class="page-link"
+                       th:href="@{/patches(page=${data.current}-1,keyword=${#httpServletRequest.getParameter('keyword')})}">
+                        [[${data.current-1}]]
+                    </a>
+                </li>
+                <li class="page-item">
+                    <input type="hidden" th:value="${#httpServletRequest.getParameter('keyword')}" name="keyword">
+                    <input type="text" th:value="${data.current}" class="page-input" name="page">
+                </li>
+                <li class="page-item" th:if="${data.hasNext}">
+                    <a class="page-link"
+                       th:href="@{/patches(page=${data.current}+1,keyword=${#httpServletRequest.getParameter('keyword')})}">
+                        [[${data.current+1}]]
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        末页
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </form>
+</div>
+</body>
+</html>

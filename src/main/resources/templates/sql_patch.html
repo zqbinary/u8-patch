@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="includes/include :: header(${title})"/>
+<body>
+
+<div class="container">
+    <th:block th:include="includes/include :: navbar()"></th:block>
+
+    <!--style="position: fixed;width: 80%;left: 100px"-->
+    <table class="table fixed-top" style="background: #fff;margin:0 auto;
+width: 80%;
+left:0;
+right:0;">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">标题</th>
+            <th scope="col">运行时间</th>
+            <th scope="col">order</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row" th:text="${data.id}">1</th>
+            <td th:text="${data.title}">1</td>
+            <td th:text="${#dates.format(data.runAt,'yyyy-MM-dd')}">1</td>
+            <td th:text="${data.sort}">1</td>
+            <td>
+                <a th:href="@{/sql-patches/{id}(id=${data.id}-1)}" target="_blank">上一个</a>
+                &nbsp;
+                <a th:href="@{/sql-patches/{id}(id=${data.id}+1)}" target="_blank">下一个</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="content" style="padding-top: 100px">
+        <pre>[(${data.content})]</pre>
+    </div>
+</div>
+</body>
+</html>

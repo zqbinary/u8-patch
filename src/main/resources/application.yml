@@ -1,0 +1,24 @@
+server:
+  port: 8082
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/u8_update?serverTimezone=Asia/Shanghai
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    root: INFO
+crawl:
+  patch:
+    main: true
+    detail: true
+  sql-patch: false
