@@ -12,13 +12,13 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
-    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
   global-config:
     banner: false
 logging:
   level:
     root: INFO
+    com.zq.u8Patch.mapper: debug
 crawl:
   patch:
     main: false
