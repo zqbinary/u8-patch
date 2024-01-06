@@ -14,11 +14,13 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
     #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+  global-config:
+    banner: false
 logging:
   level:
     root: INFO
 crawl:
   patch:
-    main: true
-    detail: true
+    main: false
+    detail: false
   sql-patch: false

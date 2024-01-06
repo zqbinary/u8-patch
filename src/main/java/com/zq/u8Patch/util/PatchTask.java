@@ -1,5 +1,7 @@
 package com.zq.u8Patch.util;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zq.u8Patch.entity.Patch;
 import com.zq.u8Patch.mapper.PatchMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -54,13 +56,17 @@ public class PatchTask implements Runnable {
         int itemCount = aList.size();
         for (int i = 0; i < itemCount; i++) {
             Element link = aList.get(i);
+            String url = link.attr("href");
+            QueryWrapper<Patch> patchQueryWrapper = Wrappers.query();
+            patchQueryWrapper.eq("url", url);
+            if (patchMapper.selectCount(patchQueryWrapper) > 0) {
+                continue;
+            }
             Element textNode = smallList.get(i);
             Patch patch = new Patch();
             patch.setTitle(link.text());
-            patch.setUrl(link.attr("href"));
+            patch.setUrl(url);
             patch.setInfo(textNode.text());
-//            log.info(patch);
-            // todo 判断url 是否存在
             patchMapper.insert(patch);
             patchMappers.add(patchMapper);
         }
